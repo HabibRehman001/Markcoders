@@ -1,0 +1,87 @@
+.markcoders-wrap {
+  --mouse-x: -9999px;
+  --mouse-y: -9999px;
+  --reveal-size: 140px;
+
+  position: relative;
+  width: 100%;
+  min-height: 72svh;
+  padding-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--black, #050505);
+  cursor: crosshair;
+}
+
+.markcoders-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: 96vw;
+  white-space: nowrap;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(90px, 16vw, 280px);
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: -0.075em;
+  user-select: none;
+  pointer-events: none;
+}
+
+.markcoders-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.13);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.markcoders-reveal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(
+    circle var(--reveal-size) at var(--mouse-x) var(--mouse-y),
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--reveal-size) at var(--mouse-x) var(--mouse-y),
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 100%
+  );
+  transition:
+    -webkit-mask-image 0.08s linear,
+    mask-image 0.08s linear;
+}
+
+.markcoders-blue {
+  color: #009cff;
+  -webkit-text-stroke: 1px #009cff;
+  text-shadow:
+    0 0 8px rgba(0, 156, 255, 0.45),
+    0 0 25px rgba(0, 156, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .markcoders-wrap {
+    --reveal-size: 90px;
+    min-height: 70svh;
+  }
+
+  .markcoders-text {
+    font-size: clamp(55px, 18vw, 130px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .markcoders-reveal {
+    transition: none;
+  }
+}

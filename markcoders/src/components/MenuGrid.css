@@ -1,0 +1,192 @@
+.menu-grid {
+  --menu-gap: 2px;
+
+  display: grid;
+  grid-template-columns: 1.35fr 0.95fr 1.15fr;
+  grid-template-rows: minmax(240px, 1.45fr) minmax(180px, 1fr);
+  grid-template-areas:
+    'about about services'
+    'home contact contact';
+  gap: var(--menu-gap);
+  width: min(1180px, calc(100% - 2rem));
+  height: min(62svh, 620px);
+  margin-inline: auto;
+  transition:
+    grid-template-columns 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    grid-template-rows 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.menu-grid:has(.menu-card--about:hover),
+.menu-grid:has(.menu-card--about:focus-visible) {
+  grid-template-columns: 1.7fr 1.1fr 0.85fr;
+  grid-template-rows: minmax(280px, 1.75fr) minmax(160px, 0.85fr);
+}
+
+.menu-grid:has(.menu-card--services:hover),
+.menu-grid:has(.menu-card--services:focus-visible) {
+  grid-template-columns: 1.1fr 0.8fr 1.55fr;
+  grid-template-rows: minmax(280px, 1.7fr) minmax(160px, 0.9fr);
+}
+
+.menu-grid:has(.menu-card--home:hover),
+.menu-grid:has(.menu-card--home:focus-visible) {
+  grid-template-columns: 1.65fr 0.85fr 1fr;
+  grid-template-rows: minmax(210px, 1.15fr) minmax(220px, 1.35fr);
+}
+
+.menu-grid:has(.menu-card--contact:hover),
+.menu-grid:has(.menu-card--contact:focus-visible) {
+  grid-template-columns: 1fr 0.85fr 1.55fr;
+  grid-template-rows: minmax(210px, 1.1fr) minmax(230px, 1.4fr);
+}
+
+.menu-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(1rem, 2.2vw, 1.6rem);
+  border: 1px solid #1a1a1a;
+  border-radius: 0;
+  background: var(--black);
+  color: var(--white);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  font: inherit;
+  transition:
+    background 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+.menu-card:disabled {
+  cursor: wait;
+}
+
+.menu-card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  gap: 1rem;
+}
+
+.menu-card__index {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.45s ease;
+}
+
+.menu-card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.menu-card__title {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(28px, 4vw, 70px);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  transition: font-size 0.5s ease, color 0.45s ease;
+}
+
+.menu-card__arrow {
+  flex-shrink: 0;
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.45s ease, transform 0.45s ease;
+}
+
+.menu-card:hover,
+.menu-card:focus-visible {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px rgba(0, 156, 255, 0.25), 0 0 40px rgba(0, 156, 255, 0.18);
+  outline: none;
+}
+
+.menu-card:hover .menu-card__index,
+.menu-card:focus-visible .menu-card__index {
+  color: rgba(5, 5, 5, 0.4);
+}
+
+.menu-card:hover .menu-card__title,
+.menu-card:focus-visible .menu-card__title {
+  font-size: clamp(35px, 5.5vw, 100px);
+  color: var(--black);
+}
+
+.menu-card:hover .menu-card__arrow,
+.menu-card:focus-visible .menu-card__arrow {
+  color: var(--blue);
+  transform: translate(3px, -3px);
+}
+
+@media (max-width: 900px) {
+  .menu-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4, minmax(140px, 1fr));
+    grid-template-areas:
+      'about about'
+      'services services'
+      'home home'
+      'contact contact';
+    height: auto;
+    min-height: calc(100svh - 8rem);
+  }
+
+  .menu-grid:has(.menu-card--about:hover),
+  .menu-grid:has(.menu-card--about:focus-visible),
+  .menu-grid:has(.menu-card--services:hover),
+  .menu-grid:has(.menu-card--services:focus-visible),
+  .menu-grid:has(.menu-card--home:hover),
+  .menu-grid:has(.menu-card--home:focus-visible),
+  .menu-grid:has(.menu-card--contact:hover),
+  .menu-grid:has(.menu-card--contact:focus-visible) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .menu-grid {
+    width: calc(100% - 1.25rem);
+    gap: 2px;
+  }
+
+  .menu-card {
+    padding: 1rem;
+  }
+
+  .menu-card__title {
+    font-size: clamp(26px, 9vw, 42px);
+  }
+
+  .menu-card:hover .menu-card__title,
+  .menu-card:focus-visible .menu-card__title {
+    font-size: clamp(30px, 10vw, 52px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-grid,
+  .menu-card,
+  .menu-card__title,
+  .menu-card__arrow,
+  .menu-card__index {
+    transition: none;
+  }
+}

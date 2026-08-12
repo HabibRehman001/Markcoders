@@ -1,0 +1,62 @@
+.page {
+  min-height: 100svh;
+  background: var(--black);
+  color: var(--white);
+}
+
+.page__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100svh - 5.5rem);
+  padding: clamp(1.5rem, 5vw, 4rem);
+  max-width: 52rem;
+}
+
+.page__index {
+  margin: 0 0 0.75rem;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.page__title {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.page__copy {
+  margin: 1.5rem 0 0;
+  max-width: 34rem;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.page__back {
+  margin-top: 2.5rem;
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  text-decoration: none;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.page__back + .page__back {
+  margin-top: 1rem;
+}
+
+.page__back:hover {
+  text-decoration: underline;
+}

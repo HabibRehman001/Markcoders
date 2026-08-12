@@ -1,0 +1,38 @@
+.logo-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  background: #050505;
+  touch-action: none;
+}
+
+.logo-hero__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.logo-hero__hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.25rem, 3vw, 2rem);
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .logo-hero {
+    height: min(78svh, 680px);
+    min-height: 440px;
+  }
+}

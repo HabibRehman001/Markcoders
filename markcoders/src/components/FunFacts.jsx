@@ -30,17 +30,20 @@ const stats = [
 
 export default function FunFacts() {
   const sectionRef = useRef(null)
+  const titleRef = useRef(null)
   const numberRefs = useRef([])
 
   useEffect(() => {
     const section = sectionRef.current
+    const title = titleRef.current
     const counters = stats.map(() => ({ value: 0 }))
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: section,
-          start: 'top 75%',
+          trigger: title,
+          start: 'top 55%',
+          end: 'bottom 20%',
           once: true,
         },
       })
@@ -73,7 +76,7 @@ export default function FunFacts() {
     <section ref={sectionRef} className="fun-facts">
       <div className="fun-facts-container">
         <div className="fun-facts-heading">
-          <h2>Fun Facts</h2>
+          <h2 ref={titleRef}>Fun Facts</h2>
 
           <p>
             Over the years, we have built, designed and developed digital

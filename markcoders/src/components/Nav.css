@@ -13,7 +13,7 @@
   justify-content: flex-start;
   width: auto;
   min-height: clamp(3.5rem, 10vw, 5.5rem);
-  padding: 0.85rem 1.25rem;
+  padding: 1.15rem 1.35rem;
   box-sizing: border-box;
   background: var(--nav-bg);
   transform: translate3d(0, 0, 0);

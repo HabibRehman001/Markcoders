@@ -22,6 +22,8 @@
     linear-gradient(180deg, var(--bg-1), var(--bg-0));
   user-select: none;
   pointer-events: all;
+  opacity: 1;
+  will-change: opacity;
 }
 
 .m-loader {

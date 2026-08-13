@@ -1,12 +1,12 @@
 .markcoders-wrap {
   --mouse-x: -9999px;
   --mouse-y: -9999px;
-  --reveal-size: 140px;
+  --reveal-size: 150px;
 
   position: relative;
   width: 100%;
-  min-height: 72svh;
-  padding-top: 0.25rem;
+  min-height: 88svh;
+  padding: clamp(4rem, 10vw, 7rem) 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,32 +16,79 @@
   z-index: 1;
 }
 
-.markcoders-text {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: max-content;
-  max-width: 96vw;
-  white-space: nowrap;
-  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-  font-size: clamp(90px, 16vw, 280px);
-  font-weight: 900;
-  line-height: 0.8;
-  letter-spacing: -0.075em;
-  user-select: none;
+.markcoders-stack {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(0.4rem, 1.5vw, 1rem);
+  padding-inline: clamp(0.5rem, 2vw, 1.5rem);
+  box-sizing: border-box;
   pointer-events: none;
+  user-select: none;
 }
 
-.markcoders-outline {
+.markcoders-hero-copy {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.05em;
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  font-family: 'Syne', 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.13);
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.05);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.16);
+}
+
+.markcoders-line {
+  display: block;
+  font-size: clamp(3.6rem, 12vw, 8.5rem);
+}
+
+.markcoders-line--future {
+  text-align: left;
+  padding-left: 0.05em;
+}
+
+.markcoders-line--amp {
+  text-align: center;
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  opacity: 0.95;
+}
+
+.markcoders-line--tech {
+  text-align: right;
+  padding-right: 0.08em;
+}
+
+.markcoders-brand {
+  margin-top: clamp(0.35rem, 1.5vw, 0.9rem);
+  width: 100%;
+  max-width: 96vw;
+  margin-inline: auto;
+  text-align: center;
+  font-family: 'Space Grotesk', 'Syne', sans-serif;
+  font-size: clamp(2.8rem, 12.5vw, 11.5rem);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.075em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.14);
 }
 
 .markcoders-reveal {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: inherit;
   pointer-events: none;
   -webkit-mask-image: radial-gradient(
     circle var(--reveal-size) at var(--mouse-x) var(--mouse-y),
@@ -57,12 +104,22 @@
     rgba(0, 0, 0, 0.55) 68%,
     transparent 100%
   );
-  transition:
-    -webkit-mask-image 0.08s linear,
-    mask-image 0.08s linear;
 }
 
-.markcoders-blue {
+.markcoders-reveal .markcoders-stack {
+  width: 100%;
+  max-width: 100%;
+}
+
+.markcoders-fill--white {
+  color: #ffffff;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.35),
+    0 0 28px rgba(255, 255, 255, 0.12);
+}
+
+.markcoders-fill--blue {
   color: #009cff;
   -webkit-text-stroke: 1px #009cff;
   text-shadow:
@@ -70,14 +127,20 @@
     0 0 25px rgba(0, 156, 255, 0.2);
 }
 
+.markcoders-brand--ghost,
+.markcoders-hero-copy--ghost {
+  visibility: hidden;
+}
+
 @media (max-width: 768px) {
   .markcoders-wrap {
-    --reveal-size: 90px;
-    min-height: 70svh;
+    --reveal-size: 100px;
+    min-height: 78svh;
   }
 
-  .markcoders-text {
-    font-size: clamp(55px, 18vw, 130px);
+  .markcoders-brand {
+    font-size: clamp(1.8rem, 11vw, 4rem);
+    letter-spacing: -0.06em;
   }
 }
 

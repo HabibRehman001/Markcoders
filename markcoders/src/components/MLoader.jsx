@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { signalHeroIntro } from '../lib/heroIntro'
 import './MLoader.css'
 
 // Traced from the supplied M logo. Two chevrons + two legs + two base
@@ -46,10 +47,12 @@ export default function MLoader({
   onComplete,
 }) {
   const wrapRef = useRef(null);
+  const stageRef = useRef(null);
   const waveRef = useRef(null);
   const levelRectRef = useRef(null);
   const bubbleRefs = useRef([]);
   const state = useRef({ progress: 0, phase: 0, amplitude: 3.2 });
+  const finishedRef = useRef(false);
  
   const [pct, setPct] = useState(0);
   const [complete, setComplete] = useState(false);
@@ -99,15 +102,63 @@ export default function MLoader({
   }, []);
  
   const runCompletionFx = () => {
-    gsap.to(state.current, { amplitude: 0.4, duration: 0.6, ease: "power2.out", onUpdate: render });
+    if (finishedRef.current) return;
+    finishedRef.current = true;
+
+    gsap.to(state.current, {
+      amplitude: 0.4,
+      duration: 0.6,
+      ease: 'power2.out',
+      onUpdate: render,
+    });
     setComplete(true);
-    if (wrapRef.current) {
-      gsap
-        .timeline()
-        .to(wrapRef.current, { scale: 1.07, duration: 0.22, ease: "power2.out" })
-        .to(wrapRef.current, { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.5)" });
+
+    // Kick hero camera intro while loader still covers the page
+    signalHeroIntro();
+
+    const stage = stageRef.current;
+    const wrap = wrapRef.current;
+    const readout = stage?.querySelector('.m-loader-readout');
+
+    const tl = gsap.timeline({
+      defaults: { ease: 'power2.inOut' },
+      onComplete: () => {
+        onComplete?.();
+      },
+    });
+
+    if (wrap) {
+      tl.to(wrap, { scale: 1.07, duration: 0.22, ease: 'power2.out' }).to(wrap, {
+        scale: 1,
+        duration: 0.4,
+        ease: 'elastic.out(1, 0.5)',
+      });
     }
-    onComplete?.();
+
+    tl.to(
+      [wrap, readout].filter(Boolean),
+      {
+        opacity: 0,
+        y: -18,
+        duration: 0.55,
+        stagger: 0.04,
+        ease: 'power2.in',
+      },
+      '-=0.05',
+    );
+
+    if (stage) {
+      tl.set(stage, { pointerEvents: 'none' }, '-=0.55')
+      tl.to(
+        stage,
+        {
+          opacity: 0,
+          duration: 0.85,
+          ease: 'power2.inOut',
+        },
+        '-=0.25',
+      );
+    }
   };
  
   // auto-play mode: fills 0 -> 1 on mount (and loops if requested)
@@ -152,7 +203,7 @@ export default function MLoader({
   }, [controlledProgress, auto]);
  
   return (
-    <div className="m-loader-stage">
+    <div className="m-loader-stage" ref={stageRef}>
       <div className={`m-loader ${complete ? "is-complete" : ""}`} ref={wrapRef}>
         <svg viewBox="-14 -14 182 204" xmlns="http://www.w3.org/2000/svg">
           <defs>

@@ -4,34 +4,41 @@
   color: var(--white);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .home__main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  flex: 1 0 auto;
+  display: block;
+  width: 100%;
+  position: relative;
+  z-index: 0;
 }
 
-.home__menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(5.75rem, 14vw, 7.5rem) 0 0.35rem;
+.home__laptop-only {
+  position: fixed;
+  top: 650px;
+  right: clamp(0.5rem, 2vw, 1.5rem);
+  transform: translateY(-50%);
+  z-index: 999;
+  width: min(42vw, 520px);
+  height: auto;
+  max-height: 88svh;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  
 }
 
-.home__menu--reveal {
-  animation: home-menu-reveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes home-menu-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(28px) scale(0.985);
+@media (max-width: 900px) {
+  .home__laptop-only {
+    width: min(48vw, 360px);
+    opacity: 0.9;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
+@media (max-width: 600px) {
+  .home__laptop-only {
+    display: none;
+  }
+}

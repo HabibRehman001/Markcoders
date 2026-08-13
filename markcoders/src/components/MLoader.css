@@ -1,0 +1,94 @@
+.m-loader-stage {
+  --bg-0: #04070b;
+  --bg-1: #0a121c;
+  --ink: #eef2f4;
+  --ink-dim: rgba(238, 242, 244, 0.14);
+  --ink-glass: rgba(238, 242, 244, 0.05);
+  --water-light: #5cd0ff;
+  --water: #00a3fa;
+  --water-dark: #0072e6;
+  --glow: rgba(0, 163, 250, 0.55);
+
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(0, 156, 255, 0.12), transparent 62%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-0));
+  user-select: none;
+  pointer-events: all;
+}
+
+.m-loader {
+  position: relative;
+  width: min(42vw, 220px);
+  filter: drop-shadow(0 0 0 rgba(0, 163, 250, 0));
+  transition: filter 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.m-loader.is-complete {
+  filter: drop-shadow(0 0 22px var(--glow)) drop-shadow(0 0 46px rgba(0, 163, 250, 0.28));
+}
+
+.m-loader svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.m-glass {
+  fill: var(--ink-glass);
+}
+
+.m-outline {
+  fill: none;
+  stroke: var(--ink-dim);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.m-loader.is-complete .m-outline {
+  stroke: rgba(238, 242, 244, 0.35);
+}
+
+.bubble {
+  fill: rgba(255, 255, 255, 0.55);
+}
+
+.m-loader-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.m-loader-pct {
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(28px, 6vw, 40px);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.m-loader-label {
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(238, 242, 244, 0.45);
+  transition: color 0.3s ease;
+}
+
+.m-loader-label.done {
+  color: var(--water-light);
+}

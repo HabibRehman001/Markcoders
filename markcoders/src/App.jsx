@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import LocomotiveScroll from 'locomotive-scroll'
 import 'locomotive-scroll/dist/locomotive-scroll.css'
@@ -7,8 +8,10 @@ import Home from './pages/home'
 import About from './pages/about'
 import Services from './pages/services'
 import Contact from './pages/contact'
-import Loader from './components/Loader'
+import Loader from './components/MLoader'
 import './App.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const App = () => {
   const [loading, setLoading] = useState(true)
@@ -33,11 +36,21 @@ const App = () => {
       },
     })
 
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh()
-    })
+    const onTick = () => {
+      ScrollTrigger.update()
+    }
+
+    gsap.ticker.add(onTick)
+
+    const refreshTimers = [
+      window.setTimeout(() => ScrollTrigger.refresh(), 100),
+      window.setTimeout(() => ScrollTrigger.refresh(), 600),
+      window.setTimeout(() => ScrollTrigger.refresh(), 1200),
+    ]
 
     return () => {
+      refreshTimers.forEach((id) => window.clearTimeout(id))
+      gsap.ticker.remove(onTick)
       scroll.destroy()
     }
   }, [loading])

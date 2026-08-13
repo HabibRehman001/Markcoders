@@ -6,12 +6,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  right: auto;
   z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  justify-content: flex-start;
+  width: auto;
   min-height: clamp(3.5rem, 10vw, 5.5rem);
   padding: 0.85rem 1.25rem;
   box-sizing: border-box;
@@ -30,18 +30,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.4rem, 1.2vw, 1rem);
-  width: min(60%, 36rem);
-  margin-inline: auto;
+  width: auto;
+  margin: 0;
   text-decoration: none;
-  padding: 10px 12px;
-  border-radius: 10px;
+  padding: 8px;
+  border-radius: 12px;
   background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 4px 8px rgba(34, 22, 255, 0.6);
   color: var(--nav-text);
   transition: opacity 0.2s ease;
   animation: nav-float 3.6s ease-in-out infinite;
   will-change: transform;
+  cursor: pointer;
 }
 
 .nav--hidden .nav__brand {
@@ -61,12 +61,18 @@
 .nav__logo {
   display: block;
   position: relative;
-  width: clamp(2.75rem, 7.5vw, 4rem);
-  height: clamp(2.75rem, 7.5vw, 4rem);
+  width: clamp(3rem, 8vw, 4.25rem);
+  height: clamp(3rem, 8vw, 4.25rem);
   flex-shrink: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
   background: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+.nav__logo:active {
+  cursor: grabbing;
 }
 
 .nav__logo-canvas,
@@ -74,33 +80,6 @@
   display: block !important;
   width: 100% !important;
   height: 100% !important;
-}
-
-.nav__wordmark {
-  display: inline-flex;
-  align-items: baseline;
-  justify-content: center;
-  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-  font-weight: 700;
-  font-size: clamp(0.95rem, 3.4vw, 2rem);
-  letter-spacing: 0.06em;
-  line-height: 1;
-  white-space: nowrap;
-  color: var(--nav-text);
-  text-shadow: 0 2px 18px rgba(2, 40, 80, 0.35);
-}
-
-.nav__name {
-  color: #ffffff;
-}
-
-.nav__slash {
-  color: #ffffff;
-  margin-left: 0.05em;
-}
-
-.nav__chevron {
-  color: #7dd3fc;
 }
 
 @keyframes nav-float {
@@ -119,12 +98,7 @@
   }
 
   .nav__brand {
-    width: 92%;
-    gap: 0.35rem;
-  }
-
-  .nav__wordmark {
-    letter-spacing: 0.03em;
+    padding: 6px;
   }
 }
 

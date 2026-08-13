@@ -6,6 +6,7 @@
   background: #000000;
   color: #ffffff;
   overflow: hidden;
+  z-index: 1;
 }
 
 .fun-facts-container {

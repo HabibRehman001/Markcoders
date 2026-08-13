@@ -1,11 +1,11 @@
 import { Suspense, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF } from '@react-three/drei'
+import { PresentationControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
 const MODEL_PATH = '/company_logo_3d.glb'
-const SPIN_DURATION = 5
 const TARGET_SIZE = 1.05
+const SPIN_DURATION = 5
 
 function prepareLogo(scene) {
   const source = scene.clone(true)
@@ -53,9 +53,9 @@ function LogoModel() {
   )
 }
 
-export default function NavLogo3D() {
+export default function NavLogo3D({ className = 'nav__logo' }) {
   return (
-    <span className="nav__logo" aria-hidden="true">
+    <span className={className} aria-hidden="true">
       <Canvas
         className="nav__logo-canvas"
         dpr={[1, 2]}
@@ -67,18 +67,32 @@ export default function NavLogo3D() {
           far: 100,
         }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        style={{ pointerEvents: 'none', background: 'transparent' }}
+        style={{ background: 'transparent' }}
         onCreated={({ gl }) => {
           gl.setClearColor(0x000000, 0)
         }}
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
       >
         <ambientLight intensity={1} />
         <directionalLight intensity={1.6} position={[2.5, 3, 4]} />
         <directionalLight intensity={0.65} position={[-3, 1, 2]} />
         <directionalLight intensity={0.45} position={[0, 2, -3]} color="#009cff" />
-        <Suspense fallback={null}>
-          <LogoModel />
-        </Suspense>
+        <PresentationControls
+          global={false}
+          cursor
+          snap={false}
+          speed={1.4}
+          zoom={1}
+          rotation={[0, 0, 0]}
+          polar={[-Math.PI, Math.PI]}
+          azimuth={[-Infinity, Infinity]}
+          config={{ mass: 1, tension: 170, friction: 22 }}
+        >
+          <Suspense fallback={null}>
+            <LogoModel />
+          </Suspense>
+        </PresentationControls>
       </Canvas>
     </span>
   )

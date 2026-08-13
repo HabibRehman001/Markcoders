@@ -1,43 +1,30 @@
-import { useCallback, useState } from 'react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Nav from '../components/Nav'
-import LogoHero from '../components/LogoHero'
-import MenuGrid from '../components/MenuGrid'
+import LaptopIntro from '../components/LaptopIntro'
 import MarkcodersText from '../components/MarkcodersText'
 import FunFacts from '../components/FunFacts'
 import Technologies from '../components/Technologies'
 import Footer from '../components/Footer'
+import laptopOnly from '../assets/laptoponly.png'
 import './home.css'
 
 const Home = () => {
-  const [entered, setEntered] = useState(false)
-
-  const handleEnterMenu = useCallback(() => {
-    setEntered(true)
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh()
-    })
-  }, [])
-
   return (
     <div className="home">
+      <img
+        className="home__laptop-only"
+        src={laptopOnly}
+        alt=""
+        draggable={false}
+      />
+
       <Nav />
       <main className="home__main">
-        {!entered ? (
-          <LogoHero onEnterMenu={handleEnterMenu} />
-        ) : (
-          <>
-            <section className="home__menu home__menu--reveal">
-              <MenuGrid />
-            </section>
-
-            <MarkcodersText />
-            <Technologies />
-            <FunFacts />
-          </>
-        )}
+        <LaptopIntro />
+        <MarkcodersText />
+        <Technologies />
+        <FunFacts />
       </main>
-      {entered ? <Footer /> : null}
+      <Footer />
     </div>
   )
 }

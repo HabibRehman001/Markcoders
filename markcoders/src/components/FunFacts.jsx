@@ -30,44 +30,55 @@ const stats = [
 
 export default function FunFacts() {
   const sectionRef = useRef(null)
-  const titleRef = useRef(null)
   const numberRefs = useRef([])
 
   useEffect(() => {
     const section = sectionRef.current
-    const title = titleRef.current
-    const counters = stats.map(() => ({ value: 0 }))
+    if (!section) return undefined
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: title,
-          start: 'top 55%',
-          end: 'bottom 20%',
-          once: true,
-        },
-      })
+    const counters = stats.map(() => ({ value: 0 }))
+    let played = false
+
+    const setNumber = (index, value) => {
+      const el = numberRefs.current[index]
+      if (!el) return
+      el.textContent = `${Math.round(value)}${stats[index].suffix}`
+    }
+
+    const play = () => {
+      if (played) return
+      played = true
 
       counters.forEach((counter, index) => {
-        tl.to(
-          counter,
-          {
-            value: stats[index].value,
-            duration: 5.5,
-            ease: 'power1.out',
-            onUpdate: () => {
-              if (!numberRefs.current[index]) return
+        gsap.to(counter, {
+          value: stats[index].value,
+          duration: 2.8,
+          delay: index * 0.15,
+          ease: 'power1.out',
+          onUpdate: () => setNumber(index, counter.value),
+        })
+      })
+    }
 
-              numberRefs.current[index].textContent =
-                `${Math.round(counter.value)}${stats[index].suffix}`
-            },
-          },
-          index * 0.25,
-        )
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 75%',
+        once: true,
+        onEnter: play,
+        // If the section is already in view (or pin math is weird), still play
+        onRefresh: (self) => {
+          if (self.isActive || self.progress > 0) play()
+        },
       })
     }, section)
 
+    const refreshId = window.setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 120)
+
     return () => {
+      window.clearTimeout(refreshId)
       ctx.revert()
     }
   }, [])
@@ -76,7 +87,7 @@ export default function FunFacts() {
     <section ref={sectionRef} className="fun-facts">
       <div className="fun-facts-container">
         <div className="fun-facts-heading">
-          <h2 ref={titleRef}>Fun Facts</h2>
+          <h2>Fun Facts</h2>
 
           <p>
             Over the years, we have built, designed and developed digital

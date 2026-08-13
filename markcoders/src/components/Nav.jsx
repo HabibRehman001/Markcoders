@@ -122,19 +122,21 @@ const Nav = () => {
 
   return (
     <header className={`nav${hidden ? ' nav--hidden' : ''}`}>
-      <a
-        href="/"
+      <div
         className="nav__brand"
+        role="link"
+        tabIndex={0}
         aria-label="Markcoders home"
         onClick={handleBrandClick}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            handleBrandClick(event)
+          }
+        }}
       >
         <NavLogo3D />
-        <span className="nav__wordmark" aria-hidden="true">
-          <span className="nav__name">MARKCODERS</span>
-          <span className="nav__slash">/</span>
-          <span className="nav__chevron">&gt;</span>
-        </span>
-      </a>
+      </div>
     </header>
   )
 }

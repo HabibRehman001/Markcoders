@@ -13,6 +13,7 @@
   overflow: hidden;
   background: var(--black, #050505);
   cursor: crosshair;
+  z-index: 1;
 }
 
 .markcoders-text {

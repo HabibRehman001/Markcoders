@@ -5,6 +5,7 @@
   background: #ffffff;
   color: #050505;
   overflow: hidden;
+  z-index: 1;
 }
 
 .technologies-content {

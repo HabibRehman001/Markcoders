@@ -87,7 +87,7 @@ export default function FunFacts() {
     <section ref={sectionRef} className="fun-facts">
       <div className="fun-facts-container">
         <div className="fun-facts-heading">
-          <h2>Fun Facts</h2>
+          <h2>Portfolio</h2>
 
           <p>
             Over the years, we have built, designed and developed digital

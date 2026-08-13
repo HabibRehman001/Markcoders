@@ -120,7 +120,7 @@ export default function Footer() {
       <section className="footer-main">
         <div className="footer-brand-column">
           <div className="footer-logo">
-            <img src="/M.png" alt="Markcoders" />
+            <img src="./logo.png" alt="Markcoders" />
             <span>
               MARKCODERS
               <strong>/&gt;</strong>

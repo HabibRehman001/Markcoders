@@ -8,7 +8,10 @@ import Home from './pages/home'
 import About from './pages/about'
 import Services from './pages/services'
 import Contact from './pages/contact'
+import ProjectsPage from './pages/projects'
 import Loader from './components/MLoader'
+import ScrollToTop from './components/ScrollToTop'
+import { setSmoothScroll, scrollToTop } from './lib/smoothScroll'
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -23,6 +26,10 @@ const App = () => {
   useEffect(() => {
     if (loading) return undefined
 
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+
     const scroll = new LocomotiveScroll({
       lenisOptions: {
         lerp: 0.08,
@@ -35,6 +42,9 @@ const App = () => {
         ScrollTrigger.update()
       },
     })
+
+    setSmoothScroll(scroll)
+    scrollToTop({ immediate: true })
 
     const onTick = () => {
       ScrollTrigger.update()
@@ -51,16 +61,19 @@ const App = () => {
     return () => {
       refreshTimers.forEach((id) => window.clearTimeout(id))
       gsap.ticker.remove(onTick)
+      setSmoothScroll(null)
       scroll.destroy()
     }
   }, [loading])
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
 

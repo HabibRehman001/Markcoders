@@ -17,11 +17,11 @@ const ITEMS = [
     area: 'services',
   },
   {
-    id: 'home',
+    id: 'projects',
     index: '03',
-    title: 'HOME',
-    to: '/',
-    area: 'home',
+    title: 'PROJECTS',
+    to: '/projects',
+    area: 'projects',
   },
   {
     id: 'contact',

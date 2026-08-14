@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
+
+/* ---------- layout ---------- */
+
+.projects {
+  --gap: 8px;
+  --wall: clamp(20px, 4.5vw, 56px);
+  --cell-w: 90%;
+  --radius-hover: 28px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  background: #fff;
+  color: #111;
+  font-family: 'Syne', 'Space Grotesk', sans-serif;
+  padding-bottom: clamp(48px, 8vh, 96px);
+}
+
+/* Hero-matching Markcoders™ wordmark — sits above the image grid */
+.projects__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(5.75rem, 11vh, 7.25rem) clamp(1rem, 4vw, 3.5rem) clamp(1.25rem, 2.5vh, 2rem);
+}
+
+.projects__back {
+  margin: clamp(1.75rem, 4.5vh, 3.25rem) 0 clamp(1.35rem, 3.5vh, 2.75rem);
+}
+
+.projects__wordmark {
+  margin: 0;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: clamp(1.85rem, calc((100vw - 2.5rem) / 8.6), 9.75rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  color: #0a0a0a;
+  user-select: none;
+}
+
+.projects__tm {
+  display: inline-block;
+  margin-left: 0.06em;
+  font-size: 0.24em;
+  line-height: 1;
+  vertical-align: 1.15em;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.projects__label {
+  margin: clamp(0.75rem, 1.5vh, 1.25rem) 0 0;
+  font-family: 'Space Grotesk', 'Syne', sans-serif;
+  font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #0a0a0a;
+}
+
+.projects__label span {
+  display: inline-block;
+  padding-bottom: 2px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size 0.35s var(--ease);
+  cursor: default;
+}
+
+.projects__label:hover span {
+  background-size: 100% 2px;
+}
+
+.projects__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  align-items: start;
+}
+
+/* ---------- sticky "temp nav" that names the current project ---------- */
+
+.projects__nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 22px clamp(20px, 4vw, 48px);
+  background: #fff;
+  border-bottom: 1px solid #ececec;
+}
+
+.projects__nav-item {
+  font-family: 'Space Grotesk', 'Syne', sans-serif;
+  font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.projects__nav-fade {
+  animation: navFadeIn 0.5s var(--ease);
+}
+
+@keyframes navFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- each image cell ---------- */
+
+.cell {
+  position: relative;
+  display: block;
+  width: var(--cell-w);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Column 1 inset from left wall; column 2 inset from right wall */
+.cell--left {
+  justify-self: start;
+  margin-left: var(--wall);
+}
+
+.cell--right {
+  justify-self: end;
+  margin-right: var(--wall);
+}
+
+.cell__frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0;
+  transform-origin: center center;
+  will-change: transform;
+  transition: border-radius 0.5s var(--ease);
+}
+
+/* the smooth border-radius reveal on hover */
+.cell:hover .cell__frame {
+  border-radius: var(--radius-hover);
+}
+
+.cell__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center center;
+  /* Hover zoom only — scroll scale is driven by GSAP on .cell__frame */
+  transition: transform 0.6s var(--ease);
+}
+
+.cell:hover .cell__media {
+  transform: scale(1.05);
+}
+
+/* ---------- hover overlay with project name / CTA ---------- */
+
+.cell__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  transition: opacity 0.4s ease, background 0.4s ease;
+  pointer-events: none;
+}
+
+.cell:hover .cell__overlay {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.cell__cta {
+  border: 1px solid #fff;
+  border-radius: 999px;
+  padding: 14px 32px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: transform 0.45s var(--ease) 0.05s, opacity 0.45s ease 0.05s;
+}
+
+.cell:hover .cell__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .cell__media,
+  .cell__frame,
+  .cell__overlay,
+  .cell__cta,
+  .projects__nav-fade {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 720px) {
+  .projects {
+    --wall: 16px;
+    --cell-w: 100%;
+  }
+
+  .projects__intro {
+    padding: 5.5rem 1rem 1.25rem;
+  }
+
+  .projects__back {
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  .projects__wordmark {
+    font-size: clamp(1.7rem, calc((100vw - 2rem) / 8.4), 4.25rem);
+    letter-spacing: -0.055em;
+  }
+
+  .projects__tm {
+    font-size: 0.22em;
+    vertical-align: 1.05em;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .cell--left,
+  .cell--right {
+    justify-self: stretch;
+    margin-left: var(--wall);
+    margin-right: var(--wall);
+    width: auto;
+  }
+
+  .cell {
+    aspect-ratio: 16 / 10;
+  }
+
+  .projects__nav {
+    padding: 14px 20px;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .projects__wordmark {
+    font-size: clamp(1.4rem, calc((100vw - 1.5rem) / 8), 2.2rem);
+  }
+} 

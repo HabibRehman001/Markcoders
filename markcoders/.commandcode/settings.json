@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(npm:*)",
+      "Shell(npx eslint src/pages/about.jsx src/pages/About.css 2 >& 1)",
+      "Shell(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5174/about)",
+      "Shell(curl -s http://localhost:5174/src/pages/about.jsx)",
+      "Shell(curl -s -o /dev/null -w %{http_code} http://localhost:5174/src/pages/About.css)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

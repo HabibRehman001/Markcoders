@@ -1,0 +1,11 @@
+# Markcoders — Taste Profile
+- Iterates extremely fast and frequently asks to revert/discard recent work ("revert your last 2 prompts changes", "remove this ... lets do something else"). Keep changes incremental and easy to back out. Confidence: 0.85
+- Drops in code snippets (sometimes partial or broken) and expects them integrated as-is ("this is the jsx and css", "integrate this mouse feature pls"). Treat provided code as the source of truth. Confidence: 0.85
+- Repeats a request verbatim when it wasn't executed correctly — wants exact, precise execution, not creative extrapolation. Confidence: 0.7
+- Wants the agent to inspect provided assets (images/videos in public/) before using them. Confidence: 0.7
+- Reports runtime errors (often via screenshot) and expects them fixed before moving on. Confidence: 0.7
+- Cares about performance: optimize media, lazy-load below-the-fold sections. Confidence: 0.7
+- Deploys to Vercel via versel.json. Confidence: 0.7
+- React (Vite) app; per-component CSS files; GSAP + ScrollTrigger; react-three-fiber + drei + three; canvas/shaders for effects. Confidence: 0.9
+- Wants authentic content — do not invent fake company history or milestones; use real details and flag placeholders when real info is missing. Confidence: 0.8
+- Describes design concepts as detailed prose specs with ASCII wireframe/layout diagrams and section-by-section flow, expecting faithful execution. Confidence: 0.7

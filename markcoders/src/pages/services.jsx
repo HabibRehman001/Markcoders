@@ -1,10 +1,7 @@
 import Nav from '../components/Nav'
-import { usePageTransition } from '../components/TransitionProvider'
 import './page.css'
 
 const Services = () => {
-  const { navigateWithTransition } = usePageTransition()
-
   return (
     <div className="page">
       <Nav />
@@ -14,13 +11,6 @@ const Services = () => {
         <p className="page__copy">
           Product design, full-stack development, and cinematic web experiences for brands that move.
         </p>
-        <button
-          type="button"
-          className="page__back"
-          onClick={() => navigateWithTransition('HOME', '/', { index: '03' })}
-        >
-          ← Back to menu
-        </button>
       </main>
     </div>
   )

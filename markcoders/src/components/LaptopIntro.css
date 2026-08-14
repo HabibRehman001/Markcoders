@@ -86,8 +86,8 @@
 .laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--about:focus-visible),
 .laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--services:hover),
 .laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--services:focus-visible),
-.laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--home:hover),
-.laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--home:focus-visible),
+.laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--projects:hover),
+.laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--projects:focus-visible),
 .laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--contact:hover),
 .laptop-intro:not(.is-deep) .menu-grid:has(.menu-card--contact:focus-visible) {
   grid-template-columns: 1.35fr 0.95fr 1.15fr;
@@ -106,8 +106,8 @@
   grid-template-rows: 1.7fr 0.9fr;
 }
 
-.laptop-intro.is-deep .menu-grid:has(.menu-card--home:hover),
-.laptop-intro.is-deep .menu-grid:has(.menu-card--home:focus-visible) {
+.laptop-intro.is-deep .menu-grid:has(.menu-card--projects:hover),
+.laptop-intro.is-deep .menu-grid:has(.menu-card--projects:focus-visible) {
   grid-template-columns: 1.65fr 0.85fr 1fr;
   grid-template-rows: 1.15fr 1.35fr;
 }
@@ -142,7 +142,7 @@
     grid-template-areas:
       'about about'
       'services services'
-      'home home'
+      'projects projects'
       'contact contact';
   }
 

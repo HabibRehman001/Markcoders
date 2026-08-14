@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { usePageTransition } from './TransitionProvider'
 import NavLogo3D from './NavLogo3D'
+import BackButton from './BackButton'
 import './Nav.css'
 
 const rand = (min, max) => Math.random() * (max - min) + min
@@ -80,11 +81,14 @@ const playNavBurst = (originX, originY) => {
   }
 }
 
+const LIGHT_BACK_PATHS = new Set(['/projects', '/contact'])
+
 const Nav = () => {
   const [hidden, setHidden] = useState(false)
   const lastY = useRef(0)
   const location = useLocation()
   const { navigateWithTransition } = usePageTransition()
+  const backTone = LIGHT_BACK_PATHS.has(location.pathname) ? 'light' : 'dark'
 
   useEffect(() => {
     const onScroll = () => {
@@ -137,6 +141,10 @@ const Nav = () => {
       >
         <NavLogo3D />
       </div>
+
+      {location.pathname !== '/' && location.pathname !== '/projects' && (
+        <BackButton className="back-btn--floating" tone={backTone} />
+      )}
     </header>
   )
 }

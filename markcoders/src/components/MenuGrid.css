@@ -6,7 +6,7 @@
   grid-template-rows: minmax(240px, 1.45fr) minmax(180px, 1fr);
   grid-template-areas:
     'about about services'
-    'home contact contact';
+    'projects contact contact';
   gap: var(--menu-gap);
   width: min(1180px, calc(100% - 2rem));
   height: min(62svh, 620px);
@@ -28,8 +28,8 @@
   grid-template-rows: minmax(280px, 1.7fr) minmax(160px, 0.9fr);
 }
 
-.menu-grid:has(.menu-card--home:hover),
-.menu-grid:has(.menu-card--home:focus-visible) {
+.menu-grid:has(.menu-card--projects:hover),
+.menu-grid:has(.menu-card--projects:focus-visible) {
   grid-template-columns: 1.65fr 0.85fr 1fr;
   grid-template-rows: minmax(210px, 1.15fr) minmax(220px, 1.35fr);
 }
@@ -142,7 +142,7 @@
     grid-template-areas:
       'about about'
       'services services'
-      'home home'
+      'projects projects'
       'contact contact';
     height: auto;
     min-height: calc(100svh - 8rem);
@@ -152,8 +152,8 @@
   .menu-grid:has(.menu-card--about:focus-visible),
   .menu-grid:has(.menu-card--services:hover),
   .menu-grid:has(.menu-card--services:focus-visible),
-  .menu-grid:has(.menu-card--home:hover),
-  .menu-grid:has(.menu-card--home:focus-visible),
+  .menu-grid:has(.menu-card--projects:hover),
+  .menu-grid:has(.menu-card--projects:focus-visible),
   .menu-grid:has(.menu-card--contact:hover),
   .menu-grid:has(.menu-card--contact:focus-visible) {
     grid-template-columns: 1fr 1fr;

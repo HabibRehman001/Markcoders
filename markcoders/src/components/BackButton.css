@@ -1,0 +1,79 @@
+.back-btn {
+  --back-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.85rem 0.55rem 0.7rem;
+  border-radius: 999px;
+  font-family: 'Space Grotesk', 'Syne', 'Segoe UI', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background 0.25s var(--back-ease),
+    color 0.25s var(--back-ease),
+    border-color 0.25s var(--back-ease),
+    transform 0.25s var(--back-ease);
+}
+
+.back-btn--light {
+  border: 1px solid rgba(10, 10, 10, 0.18);
+  background: #fff;
+  color: #0a0a0a;
+}
+
+.back-btn--light:hover {
+  background: #0a0a0a;
+  color: #fff;
+  border-color: #0a0a0a;
+  transform: translateX(-2px);
+}
+
+.back-btn--dark {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: #fff;
+}
+
+.back-btn--dark:hover {
+  background: #fff;
+  color: #050505;
+  border-color: #fff;
+  transform: translateX(-2px);
+}
+
+.back-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+/* Fixed under the site nav — used on dark inner pages */
+.back-btn--floating {
+  position: fixed;
+  top: clamp(6.5rem, 12vh, 8rem);
+  left: clamp(1rem, 4vw, 2.5rem);
+  z-index: 90;
+  transition:
+    background 0.25s var(--back-ease),
+    color 0.25s var(--back-ease),
+    border-color 0.25s var(--back-ease),
+    transform 0.25s var(--back-ease),
+    opacity 0.35s var(--back-ease),
+    visibility 0.35s var(--back-ease);
+}
+
+.nav--hidden .back-btn--floating {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .back-btn--floating {
+    top: 5.75rem;
+    left: 0.85rem;
+  }
+}
+

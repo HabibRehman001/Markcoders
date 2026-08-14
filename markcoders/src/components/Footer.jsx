@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePageTransition } from './TransitionProvider'
+import { scrollToTop } from '../lib/smoothScroll'
 import './Footer.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -83,11 +84,8 @@ export default function Footer() {
     return () => ctx.revert()
   }, [])
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
+  const handleScrollTop = () => {
+    scrollToTop({ immediate: false })
   }
 
   const go = (title, path, index) => (event) => {
@@ -148,8 +146,8 @@ export default function Footer() {
         <div className="footer-column">
           <h3>EXPLORE</h3>
           <nav className="footer-links">
-            <a href="/" onClick={go('HOME', '/', '03')}>
-              Home
+            <a href="/projects" onClick={go('PROJECTS', '/projects', '03')}>
+              Projects
             </a>
             <a href="/about" onClick={go('ABOUT', '/about', '01')}>
               About
@@ -182,7 +180,7 @@ export default function Footer() {
       <section className="footer-bottom">
         <span>© 2026 Markcoders. All rights reserved.</span>
 
-        <button type="button" onClick={scrollToTop}>
+        <button type="button" onClick={handleScrollTop}>
           BACK TO TOP
           <span>↑</span>
         </button>

@@ -13,3 +13,8 @@ body::-webkit-scrollbar,
   height: 0;
   display: none;
 }
+
+html.is-video-hold,
+html.is-video-hold body {
+  overscroll-behavior: none;
+}

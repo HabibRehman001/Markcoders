@@ -29,7 +29,7 @@
 .studio-hero__grid {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   background-image: repeating-linear-gradient(
     90deg,
@@ -44,17 +44,18 @@
 .studio-hero__wordmark {
   position: absolute;
   top: clamp(7.25rem, 12vh, 9rem);
-  left: clamp(1.25rem, 4vw, 3.5rem);
-  right: clamp(1.25rem, 4vw, 3.5rem);
-  z-index: 1;
-  margin: 0;
-  width: auto;
+  left: clamp(1rem, 4vw, 3.5rem);
+  right: clamp(1rem, 4vw, 3.5rem);
+  z-index: 2;
+  box-sizing: border-box;
   text-align: left;
-  font-size: clamp(2.75rem, 11vw, 9.75rem);
+  /* Scale so "Markcoders™" fits the viewport width */
+  font-size: clamp(1.85rem, calc((100vw - 2.5rem) / 8.6), 9.75rem);
   font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
   white-space: nowrap;
+  overflow: visible;
   color: var(--studio-ink);
   pointer-events: none;
   user-select: none;
@@ -191,7 +192,16 @@
   }
 
   .studio-hero__sticky {
-    padding-bottom: 1.75rem;
+    padding: clamp(5rem, 9vw, 6.5rem) 1rem clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .studio-hero__wordmark {
+    top: clamp(6.25rem, 11vh, 7.75rem);
+    left: 1rem;
+    right: 1rem;
+    max-width: calc(100% - 2rem);
+    font-size: clamp(1.7rem, calc((100vw - 2rem) / 8.4), 4.25rem);
+    letter-spacing: -0.055em;
   }
 
   .studio-hero__logo {
@@ -218,18 +228,35 @@
 
 @media (max-width: 600px) {
   .studio-hero__wordmark {
-    top: 7.5rem;
-    font-size: clamp(2.4rem, 12.5vw, 3.6rem);
-    white-space: normal;
+    top: 6.75rem;
+    font-size: clamp(1.55rem, calc((100vw - 1.75rem) / 8.2), 2.85rem);
+    letter-spacing: -0.06em;
+  }
+
+  .studio-hero__tm {
+    font-size: 0.22em;
+    vertical-align: 1.05em;
   }
 
   .studio-hero__logo {
-    inset: 36% 0 18%;
+    inset: 34% 0 20%;
   }
 
   .studio-hero__canvas {
     width: min(92vw, 420px) !important;
     height: min(42vh, 340px) !important;
+  }
+
+  .studio-hero__media {
+    width: min(56vw, 200px);
+    right: 1rem;
+    bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .studio-hero__wordmark {
+    font-size: clamp(1.4rem, calc((100vw - 1.5rem) / 8), 2.2rem);
   }
 }
 

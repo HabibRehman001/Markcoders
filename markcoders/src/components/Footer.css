@@ -61,6 +61,7 @@
   gap: 30px;
   padding: 18px 24px;
   border: 1px solid #009cff;
+  border-radius: 10px;
   color: #ffffff;
   text-decoration: none;
   font-size: 13px;
@@ -75,6 +76,7 @@
   position: absolute;
   inset: 0;
   background: #009cff;
+  border-radius: inherit;
   transform: translateX(-101%);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -126,7 +128,7 @@
 
 .footer-logo span {
   font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.04em;
 }
@@ -137,10 +139,10 @@
 }
 
 .footer-brand-column > p {
-  max-width: 330px;
+  max-width: 360px;
   margin: 22px 0 30px;
   color: rgba(255, 255, 255, 0.38);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
 }
 
@@ -152,7 +154,7 @@
 .footer-socials a {
   position: relative;
   color: rgba(255, 255, 255, 0.55);
-  font-size: 12px;
+  font-size: 14px;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -183,7 +185,7 @@
   margin: 0 0 24px;
   color: rgba(255, 255, 255, 0.38);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 2px;
   font-weight: 500;
 }
@@ -199,7 +201,7 @@
   position: relative;
   color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
-  font-size: 15px;
+  font-size: 18px;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -232,7 +234,7 @@
 .footer-contact a,
 .footer-contact span {
   color: rgba(255, 255, 255, 0.68);
-  font-size: 14px;
+  font-size: 17px;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -246,11 +248,12 @@
   display: inline-flex;
   align-items: center;
   gap: 18px;
-  padding: 13px 17px;
+  padding: 14px 18px;
   border: 1px solid rgba(0, 156, 255, 0.55);
+  border-radius: 10px;
   color: #ffffff;
   text-decoration: none;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 1px;
   transition:
@@ -274,7 +277,7 @@
   align-items: center;
   justify-content: space-between;
   color: rgba(255, 255, 255, 0.3);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .footer-bottom button {
@@ -285,7 +288,7 @@
   background: transparent;
   color: rgba(255, 255, 255, 0.5);
   font-family: inherit;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 2px;
   cursor: pointer;
   transition: color 0.3s ease;

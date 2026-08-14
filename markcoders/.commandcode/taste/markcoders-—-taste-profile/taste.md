@@ -9,3 +9,4 @@
 - React (Vite) app; per-component CSS files; GSAP + ScrollTrigger; react-three-fiber + drei + three; canvas/shaders for effects. Confidence: 0.9
 - Wants authentic content — do not invent fake company history or milestones; use real details and flag placeholders when real info is missing. Confidence: 0.8
 - Describes design concepts as detailed prose specs with ASCII wireframe/layout diagrams and section-by-section flow, expecting faithful execution. Confidence: 0.7
+- Wants changes strictly scoped to the requested page/file ("Dont touch any other page", "recreate my services page only") — never modify unrelated pages or components in the same pass. Confidence: 0.8

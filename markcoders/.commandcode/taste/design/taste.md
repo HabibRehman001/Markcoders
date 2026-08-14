@@ -11,3 +11,4 @@
 - Monospace font (JetBrains Mono / Fira Code) for small eyebrow/labels; Inter for body. Confidence: 0.6
 - Interactive hover targets should feel big and substantial. Confidence: 0.6
 - Fixed/centered nav with translucent black background (alpha ~0.3–0.5) and blur. Confidence: 0.6
+- New/rewritten pages should follow the established site design language (the About page's system: black/#009cff, GSAP ScrollTrigger reveals with power3/power4 easing, BEM class naming, hover states tinting blue). Confidence: 0.7

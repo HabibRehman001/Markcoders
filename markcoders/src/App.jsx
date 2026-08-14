@@ -42,19 +42,6 @@ const App = () => {
 
     gsap.ticker.add(onTick)
 
-    const lockScroll = () => {
-      scroll.stop?.()
-      scroll.lenisInstance?.stop?.()
-    }
-
-    const unlockScroll = () => {
-      scroll.start?.()
-      scroll.lenisInstance?.start?.()
-    }
-
-    window.addEventListener('markcoders:scroll-lock', lockScroll)
-    window.addEventListener('markcoders:scroll-unlock', unlockScroll)
-
     const refreshTimers = [
       window.setTimeout(() => ScrollTrigger.refresh(), 100),
       window.setTimeout(() => ScrollTrigger.refresh(), 600),
@@ -63,8 +50,6 @@ const App = () => {
 
     return () => {
       refreshTimers.forEach((id) => window.clearTimeout(id))
-      window.removeEventListener('markcoders:scroll-lock', lockScroll)
-      window.removeEventListener('markcoders:scroll-unlock', unlockScroll)
       gsap.ticker.remove(onTick)
       scroll.destroy()
     }

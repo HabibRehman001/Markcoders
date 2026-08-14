@@ -171,8 +171,6 @@ export default function StudioHero() {
   const sectionRef = useRef(null)
   const mediaRef = useRef(null)
   const jellyPlayedRef = useRef(false)
-  const videoHoldActiveRef = useRef(false)
-  const videoHoldDoneRef = useRef(false)
   const { navigateWithTransition } = usePageTransition()
   const [videoRef] = useLazyVideoSrc(LANDING_VIDEO_SRC, '15% 0px')
 
@@ -183,11 +181,8 @@ export default function StudioHero() {
     if (!section || !wrapper) return undefined
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const VIDEO_HOLD_MS = 10000
     let playToken = 0
     let jellyTween = null
-    let holdTimer = null
-    let lockedY = 0
 
     const playVideo = () => {
       if (!video) return
@@ -208,67 +203,6 @@ export default function StudioHero() {
         video.pause()
         video.currentTime = 0
       }
-    }
-
-    const freezeScrollPosition = () => {
-      if (!videoHoldActiveRef.current) return
-      window.scrollTo(0, lockedY)
-    }
-
-    const onWheelLock = (event) => {
-      if (!videoHoldActiveRef.current) return
-      event.preventDefault()
-      freezeScrollPosition()
-    }
-
-    const onTouchLock = (event) => {
-      if (!videoHoldActiveRef.current) return
-      event.preventDefault()
-      freezeScrollPosition()
-    }
-
-    const onKeyLock = (event) => {
-      if (!videoHoldActiveRef.current) return
-      const keys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End']
-      if (keys.includes(event.key)) {
-        event.preventDefault()
-        freezeScrollPosition()
-      }
-    }
-
-    const endVideoHold = () => {
-      if (!videoHoldActiveRef.current) return
-      videoHoldActiveRef.current = false
-      if (holdTimer) {
-        window.clearTimeout(holdTimer)
-        holdTimer = null
-      }
-      window.removeEventListener('wheel', onWheelLock)
-      window.removeEventListener('touchmove', onTouchLock)
-      window.removeEventListener('keydown', onKeyLock)
-      window.removeEventListener('scroll', freezeScrollPosition)
-      document.documentElement.classList.remove('is-video-hold')
-      window.dispatchEvent(new CustomEvent('markcoders:scroll-unlock'))
-    }
-
-    const startVideoHold = () => {
-      if (videoHoldActiveRef.current || videoHoldDoneRef.current || reduceMotion) return
-
-      videoHoldActiveRef.current = true
-      videoHoldDoneRef.current = true
-      lockedY = window.scrollY || window.pageYOffset || 0
-
-      document.documentElement.classList.add('is-video-hold')
-      window.dispatchEvent(new CustomEvent('markcoders:scroll-lock'))
-
-      window.addEventListener('wheel', onWheelLock, { passive: false })
-      window.addEventListener('touchmove', onTouchLock, { passive: false })
-      window.addEventListener('keydown', onKeyLock, { passive: false })
-      window.addEventListener('scroll', freezeScrollPosition, { passive: true })
-
-      holdTimer = window.setTimeout(() => {
-        endVideoHold()
-      }, VIDEO_HOLD_MS)
     }
 
     const playJelly = () => {
@@ -366,23 +300,17 @@ export default function StudioHero() {
             if (self.progress >= 0.88) {
               playJelly()
               playVideo()
-              startVideoHold()
             } else if (self.progress < 0.72) {
               jellyPlayedRef.current = false
-              videoHoldDoneRef.current = false
               pauseVideo()
-              endVideoHold()
             }
           },
           onLeave: () => {
             playVideo()
-            // Keep hold if user somehow leaves while locked; timer still releases
           },
           onLeaveBack: () => {
             pauseVideo()
             jellyPlayedRef.current = false
-            videoHoldDoneRef.current = false
-            endVideoHold()
             gsap.set(wrapper, { scaleX: 1, scaleY: 1, rotation: 0 })
             gsap.set([wordmark, logo, intro], { opacity: 1 })
           },
@@ -424,7 +352,6 @@ export default function StudioHero() {
       playToken += 1
       jellyTween?.kill()
       pauseVideo()
-      endVideoHold()
       ctx.revert()
     }
   }, [videoRef])

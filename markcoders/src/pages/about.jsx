@@ -1,536 +1,426 @@
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Nav from '../components/Nav'
-import Footer from '../components/Footer'
-import { usePageTransition } from '../components/TransitionProvider'
-import './About.css'
+import { useLayoutEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import MLogo from '../components/MLogo';
+import './About.css';
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
-const heroLines = [
-  { text: 'WE SHIP', accent: false, shifted: false },
-  { text: 'THE FEEL', accent: false, shifted: true },
-  { text: 'OF A BRAND.', accent: false, shifted: false },
-  { text: 'IN CODE.', accent: true, shifted: false },
-]
+const BELIEFS = [
+  { lead: 'GOOD DESIGN', body: 'SHOULD FEEL SIMPLE.' },
+  { lead: 'GOOD TECHNOLOGY', body: 'SHOULD FEEL NATURAL.' },
+  { lead: 'GREAT EXPERIENCES', body: 'SHOULD BE REMEMBERED.' },
+];
 
-const beliefLines = [
-  { text: 'IF IT DOESN\'T LOAD FAST,', accent: false, shift: false },
-  { text: 'IT ISN\'T DESIGN.', accent: true, shift: true },
-  { text: 'IF MOTION HAS NO JOB,', accent: false, shift: false },
-  { text: 'IT\'S DECORATION.', accent: true, shift: true },
-  { text: 'THE SITE SHOULD FEEL', accent: false, shift: false },
-  { text: 'LIKE THE PRODUCT.', accent: true, shift: false },
-]
+const DNA = [
+  { n: '01', title: 'DESIGN', copy: 'We care about how things feel, not just how they look.' },
+  { n: '02', title: 'CODE', copy: 'We build systems that stay fast, stable and easy to grow.' },
+  { n: '03', title: 'MOTION', copy: 'We make interfaces feel alive instead of static.' },
+];
 
-const dna = [
-  {
-    name: 'DESIGN',
-    num: '01',
-    desc: 'One composition per viewport. Black, white, #009cff. Type that carries the brand before any illustration does.',
-  },
-  {
-    name: 'ENGINEERING',
-    num: '02',
-    desc: 'React 19, Vite, Three.js. Interfaces built as components you can ship — not a demo that dies in a CodePen.',
-  },
-  {
-    name: 'MOTION',
-    num: '03',
-    desc: 'GSAP, ScrollTrigger, Lenis, shaders. Movement that explains hierarchy, not a loop that asks for applause.',
-  },
-]
+const STEPS = [
+  { n: '01', title: 'DISCOVER', copy: 'We start by understanding your business, your users and the problem worth solving.' },
+  { n: '02', title: 'DESIGN', copy: 'We shape the idea into an experience — structure, interface, tone.' },
+  { n: '03', title: 'DEVELOP', copy: 'We build it properly: clean code, fast performance, built to last.' },
+  { n: '04', title: 'DEPLOY', copy: 'We ship it, watch how it performs in the real world, and keep improving it.' },
+];
 
-const milestones = [
-  {
-    year: '2024',
-    title: 'The itch',
-    copy: 'Too many sites looked finished and felt dead. We started sketching interfaces that moved with intent.',
-  },
-  {
-    year: '2025',
-    title: 'First ships',
-    copy: 'Client work left Karachi as real products: sites, apps, and motion systems — not slide decks.',
-  },
-  {
-    year: '2026',
-    title: 'Markcoders',
-    copy: 'The studio got a name. This site is the proof: identity, WebGL, and scroll as one piece.',
-  },
-]
+const STACK = ['REACT', 'THREE.JS', 'GSAP', 'VITE'];
 
-const works = [
-  {
-    src: '/projects/project1.jpg',
-    title: 'Identity engine',
-    tag: '3D / BRAND',
-    note: 'The Markcoders mark as a live GLB — not a flat PNG in a nav.',
-  },
-  {
-    src: '/projects/project2.jpg',
-    title: 'Liquid chrome',
-    tag: 'SHADER',
-    note: 'A cursor-reactive foil field. Energy builds when you move, decays when you stop.',
-  },
-  {
-    src: '/projects/project3.jpg',
-    title: 'Cinematic scroll',
-    tag: 'WEB',
-    note: 'The corner showreel grows to 80vw on scroll. Same video. No second player.',
-  },
-  {
-    src: '/projects/project4.jpg',
-    title: 'Spatial menu',
-    tag: 'INTERFACE',
-    note: 'Navigation as a grid you enter, not a row of links you scan.',
-  },
-  {
-    src: '/projects/project5.jpg',
-    title: 'Type reveal',
-    tag: 'MOTION',
-    note: 'Outline Future / Tech in white. MARKCODERS/> in blue. Spotlight follows the mouse.',
-  },
-  {
-    src: '/projects/project6.jpg',
-    title: 'Motion stack',
-    tag: 'GSAP × LENIS',
-    note: 'Smooth scroll synced to ScrollTrigger. Pin only where it earns the height.',
-  },
-]
-
-const techSlider = [
-  { name: 'REACT', src: '/react.png' },
-  { name: 'THREE.JS', src: '/tech/three.png' },
-  { name: 'GSAP', src: '/tech/gsap.png' },
-  { name: 'JAVASCRIPT', src: '/js.png' },
-  { name: 'NODE', src: '/tech/node.png' },
-  { name: 'DOCKER', src: '/dokcer.png' },
-  { name: 'GIT', src: '/tech/git.png' },
-  { name: 'PYTHON', src: '/python.png' },
-  { name: 'VUE', src: '/vue.png' },
-]
-
-const About = () => {
-  const rootRef = useRef(null)
-  const heroRef = useRef(null)
-  const studioRef = useRef(null)
-  const believeRef = useRef(null)
-  const dnaRef = useRef(null)
-  const workRef = useRef(null)
-  const techRef = useRef(null)
-  const storyRef = useRef(null)
-  const closingRef = useRef(null)
-  const { navigateWithTransition } = usePageTransition()
-
-  useEffect(() => {
-    const hoverAbort = new AbortController()
-    const { signal } = hoverAbort
-
-    const ctx = gsap.context(() => {
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      const mm = gsap.matchMedia()
-
-      if (reduce) {
-        gsap.set('.about-believe__word', { opacity: 1, y: 0 })
-        return
-      }
-
-      const heroShift = gsap.timeline({
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-
-      heroShift
-        .to('.about-hero__line--shifted', {
-          x: 80,
-          ease: 'none',
-        })
-        .to(
-          '.about-hero__line',
-          {
-            letterSpacing: '0.06em',
-            ease: 'none',
-          },
-          0,
-        )
-
-      gsap.fromTo(
-        '.about-studio__media',
-        { yPercent: 6, scale: 1.06 },
-        {
-          yPercent: -6,
-          scale: 1.06,
-          scrollTrigger: {
-            trigger: studioRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        },
-      )
-
-      gsap.from('.about-studio__copy > *', {
-        scrollTrigger: {
-          trigger: studioRef.current,
-          start: 'top 70%',
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: 'power3.out',
-      })
-
-      const words = believeRef.current?.querySelectorAll('.about-believe__word')
-      if (words?.length) {
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: believeRef.current,
-              start: 'top 80%',
-              end: 'bottom 55%',
-              scrub: true,
-            },
-          })
-          .to(
-            words,
-            {
-              opacity: 1,
-              y: 0,
-              ease: 'none',
-              stagger: 0.18,
-            },
-            0,
-          )
-      }
-
-      gsap.from('.about-dna__panel', {
-        scrollTrigger: {
-          trigger: dnaRef.current,
-          start: 'top 75%',
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power3.out',
-      })
-
-      mm.add('(min-width: 901px)', () => {
-        const track = workRef.current?.querySelector('.about-work__track')
-        if (!track) return undefined
-
-        const getAmount = () => Math.max(0, track.scrollWidth - window.innerWidth)
-
-        const tween = gsap.to(track, {
-          x: () => -getAmount(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: workRef.current,
-            start: 'top top',
-            end: () => `+=${Math.max(getAmount() * 1.15, window.innerHeight)}`,
-            scrub: 1,
-            pin: true,
-            pinSpacing: true,
-            pinType: 'transform',
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-
-        const refreshId = window.setTimeout(() => ScrollTrigger.refresh(), 240)
-
-        return () => {
-          window.clearTimeout(refreshId)
-          tween.scrollTrigger?.kill()
-          tween.kill()
-          gsap.set(track, { x: 0 })
-        }
-      })
-
-      const marquee = gsap.fromTo(
-        '.about-tech__marquee-track',
-        { xPercent: 0 },
-        {
-          xPercent: -50,
-          ease: 'none',
-          repeat: -1,
-          duration: 28,
-        },
-      )
-
-      ScrollTrigger.create({
-        trigger: techRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        onEnter: () => marquee.play(),
-        onEnterBack: () => marquee.play(),
-        onLeave: () => marquee.pause(),
-        onLeaveBack: () => marquee.pause(),
-      })
-
-      const marqueeEl = techRef.current?.querySelector('.about-tech__marquee')
-      const pauseMarquee = () => marquee.pause()
-      const playMarquee = () => marquee.play()
-      marqueeEl?.addEventListener('mouseenter', pauseMarquee, { signal })
-      marqueeEl?.addEventListener('mouseleave', playMarquee, { signal })
-      marqueeEl?.addEventListener('focusin', pauseMarquee, { signal })
-      marqueeEl?.addEventListener('focusout', playMarquee, { signal })
-
-      gsap.from('.about-story__lead, .about-story__step', {
-        scrollTrigger: {
-          trigger: storyRef.current,  
-          start: 'top 72%',
-        },
-        y: 36,
-        opacity: 0,
-        duration: 0.75,
-        stagger: 0.12,
-        ease: 'power3.out',
-      })
-
-      gsap.from('.about-closing__inner > *', {
-        scrollTrigger: {
-          trigger: closingRef.current,
-          start: 'top 75%',
-        },
-        y: 36,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out',
-      })
-
-      mm.add('(max-width: 900px)', () => {
-        ScrollTrigger.refresh()
-      })
-    }, rootRef)
-
-    const refreshId = window.setTimeout(() => ScrollTrigger.refresh(), 400)
-
-    return () => {
-      window.clearTimeout(refreshId)
-      hoverAbort.abort()
-      ctx.revert()
-    }
-  }, [])
-
-  const go = (title, path, index) => (event) => {
-    event.preventDefault()
-    navigateWithTransition(title, path, { index })
-  }
-
+function Hero() {
   return (
-    <div ref={rootRef} className="about">
-      <Nav />
-
-      <main>
-        <section ref={heroRef} className="about-hero">
-          <p className="about-hero__top">/ ABOUT · KARACHI</p>
-          <div className="about-hero__content">
-            {heroLines.map((line) => (
-              <span
-                key={line.text}
-                className={`about-hero__line${line.shifted ? ' about-hero__line--shifted' : ''}${
-                  line.accent ? ' about-hero__line--blue' : ''
-                }`}
-              >
-                {line.text}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        <section ref={studioRef} className="about-studio">
-          <div className="about-studio__inner">
-            <div className="about-studio__media">
-              <img src="/M-blue.png" alt="" />
-              <p className="about-studio__place">Karachi · est. 2024</p>
-            </div>
-
-            <div className="about-studio__copy">
-              <p className="about-studio__index">/ 01</p>
-              <h2 className="about-studio__heading">
-                <span className="about-studio__heading-line">WHAT</span>
-                <span className="about-studio__heading-line">IS</span>
-                <span className="about-studio__heading-line">
-                  <span className="about-studio__heading-accent">MARKCODERS?</span>
-                </span>
-              </h2>
-              <p className="about-studio__text">
-                A digital studio in Karachi. We design and engineer websites as
-                products — React, WebGL, and motion in one system — for brands
-                that want the site to feel like the work, not a brochure of it.
-              </p>
-              <p className="about-studio__mix">DESIGN × CODE × MOTION</p>
-            </div>
-          </div>
-        </section>
-
-        <section ref={workRef} className="about-work">
-          <div className="about-work__sticky">
-            <div className="about-work__head">
-              <p className="about-work__index">/ 02</p>
-              <h2 className="about-work__title">
-                SELECTED <span className="about-work__title-accent">CRAFT</span>
-              </h2>
-            </div>
-
-            <div className="about-work__track">
-              {works.map((work, index) => (
-                <article key={work.title} className="about-work__card">
-                  <div className="about-work__img">
-                    <img
-                      src={work.src}
-                      alt={work.title}
-                      loading={index < 2 ? 'eager' : 'lazy'}
-                      decoding="async"
-                    />
-                  </div>
-                  <div className="about-work__meta">
-                    <span className="about-work__tag">{work.tag}</span>
-                    <h3 className="about-work__name">{work.title}</h3>
-                  </div>
-                  <p className="about-work__note">{work.note}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section ref={believeRef} className="about-believe">
-          <div className="about-believe__inner">
-            <p className="about-believe__eyebrow">/ 03 · WHAT WE BELIEVE</p>
-
-            {beliefLines.map((line) => {
-              const words = line.text.split(' ')
-
-              return (
-                <p
-                  key={line.text}
-                  className={`about-believe__line${line.shift ? ' about-believe__line--shifted' : ''}`}
-                >
-                  {words.map((word, wordIndex) => (
-                    <span
-                      key={`${line.text}-${wordIndex}`}
-                      className={`about-believe__word${line.accent ? ' about-believe__word--accent' : ''}`}
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </p>
-              )
-            })}
-          </div>
-        </section>
-
-        <section ref={dnaRef} className="about-dna">
-          <div className="about-dna__head">
-            <p className="about-dna__index">/ 04</p>
-            <h2 className="about-dna__title">
-              OUR <span className="about-dna__title-accent">DNA</span>
-            </h2>
-          </div>
-
-          <div className="about-dna__panels">
-            {dna.map((item) => (
-              <div key={item.num} className="about-dna__panel">
-                <h3 className="about-dna__name">{item.name}</h3>
-                <p className="about-dna__num">{item.num}</p>
-                <p className="about-dna__desc">{item.desc}</p>
-                <span className="about-dna__divider" />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section ref={techRef} className="about-tech">
-          <div className="about-tech__inner">
-            <div className="about-tech__head">
-              <p className="about-tech__index">/ 05</p>
-              <h2 className="about-tech__statement">
-                WE USE THE STACK
-                <br />
-                WE ACTUALLY <span className="about-tech__statement-accent">SHIP.</span>
-              </h2>
-              <p className="about-tech__aside">
-                React, Three, GSAP, Vite. No TypeScript in this repo. No Mongo on
-                this site. Tools earn a place here by being in production.
-              </p>
-            </div>
-
-            <div className="about-tech__marquee">
-              <div className="about-tech__marquee-track">
-                {[...techSlider, ...techSlider].map((tech, index) => (
-                  <div key={`${tech.name}-${index}`} className="about-tech__marquee-item">
-                    <img src={tech.src} alt="" loading="lazy" decoding="async" />
-                    <span>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section ref={storyRef} className="about-story">
-          <div className="about-story__head">
-            <p className="about-story__index">/ 06</p>
-            <h2 className="about-story__title">
-              HOW WE <span className="about-story__title-accent">STARTED</span>
-            </h2>
-          </div>
-
-          <p className="about-story__lead">
-            It started in Karachi with a simple refusal: a website should not
-            feel like a PDF that happens to scroll. Markcoders is what we built
-            instead.
-          </p>
-
-          <div className="about-story__timeline">
-            {milestones.map((milestone) => (
-              <div key={milestone.year} className="about-story__step">
-                <p className="about-story__year">{milestone.year}</p>
-                <span className="about-story__dot" />
-                <div className="about-story__body">
-                  <p className="about-story__milestone">{milestone.title}</p>
-                  <p className="about-story__copy">{milestone.copy}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section ref={closingRef} className="about-closing">
-          <div className="about-closing__inner">
-            <p className="about-closing__so">SO</p>
-            <h2 className="about-closing__question">
-              WHO IS <span className="about-closing__question-accent">MARKCODERS?</span>
-            </h2>
-            <p className="about-closing__statement">
-              A Karachi studio that builds{' '}
-              <span className="about-closing__statement-accent">sites you can feel</span>
-              {' '}— in the type, the motion, and the code underneath.
-            </p>
-            <button
-              type="button"
-              className="about-closing__cta"
-              onClick={go('CONTACT', '/contact', '04')}
-            >
-              <span>Start a build</span>
-              <span className="about-closing__cta-arrow">→</span>
-            </button>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
-  )
+    <section className="mc-about__hero">
+      <span className="mc-eyebrow">/ ABOUT</span>
+      <h1 className="mc-about__hero-heading">
+        <span className="mc-about__hero-line" data-hero-line>
+          WE DON'T JUST BUILD
+        </span>
+        <span className="mc-about__hero-line" data-hero-line>
+          WEBSITES.
+        </span>
+        <span className="mc-about__hero-line" data-hero-line>
+          WE BUILD <em>EXPERIENCES.</em>
+        </span>
+      </h1>
+      <span className="mc-about__scroll-cue" aria-hidden="true">
+        SCROLL
+      </span>
+    </section>
+  );
 }
 
-export default About
+function Intro() {
+  return (
+    <section className="mc-about__intro">
+      <div className="mc-about__intro-copy" data-reveal>
+        <span className="mc-eyebrow">/ 01</span>
+        <h2>
+          WHAT IS
+          <br />
+          MARKCODERS?
+        </h2>
+        <p>
+          We're a digital studio that builds modern experiences for brands,
+          businesses and products — from the first idea to the code that
+          ships it.
+        </p>
+        <span className="mc-about__tagline">
+          DESIGN × DEVELOPMENT × TECHNOLOGY
+        </span>
+      </div>
+      <div className="mc-about__mark" data-reveal data-mark-spin>
+        <MLogo />
+      </div>
+    </section>
+  );
+}
+
+function Believe() {
+  return (
+    <section className="mc-about__believe">
+      <span className="mc-eyebrow" data-reveal>
+        / 02 · WE BELIEVE
+      </span>
+      <div className="mc-about__believe-lines">
+        {BELIEFS.map((b) => (
+          <p className="mc-about__believe-line" data-belief-line key={b.lead}>
+            <span>{b.lead}</span>
+            <br />
+            <em>{b.body}</em>
+          </p>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Dna() {
+  return (
+    <section className="mc-about__dna">
+      <div className="mc-about__dna-head" data-reveal>
+        <span className="mc-eyebrow">/ 03</span>
+        <h2>OUR DNA</h2>
+        <span className="mc-about__tagline">DESIGN × CODE × MOTION</span>
+      </div>
+      <div className="mc-about__dna-panels">
+        {DNA.map((d) => (
+          <div className="mc-about__dna-panel" data-reveal key={d.n}>
+            <span className="mc-about__dna-n">{d.n}</span>
+            <h3>{d.title}</h3>
+            <p>{d.copy}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function HowWeWork() {
+  return (
+    <section className="mc-about__how">
+      <div className="mc-about__how-head" data-reveal>
+        <span className="mc-eyebrow">/ 04</span>
+        <h2>HOW WE WORK</h2>
+      </div>
+      <div className="mc-about__how-viewport">
+        <div className="mc-about__how-track" data-hww-track>
+          {STEPS.map((s) => (
+            <div className="mc-about__how-step" data-hww-step key={s.n}>
+              <span className="mc-about__how-n">{s.n}</span>
+              <h3>{s.title}</h3>
+              <p>{s.copy}</p>
+              <span className="mc-about__how-bar" aria-hidden="true" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TechOrbit() {
+  return (
+    <section className="mc-about__tech">
+      <div className="mc-about__tech-head" data-reveal>
+        <span className="mc-eyebrow">/ 05</span>
+        <h2>
+          WE USE TECHNOLOGY
+          <br />
+          AS A TOOL. <em>NOT A SHOWCASE.</em>
+        </h2>
+        <p>The tools change. The craft doesn't.</p>
+      </div>
+      <div className="mc-about__orbit" data-orbit data-reveal>
+        <span className="mc-about__orbit-core" data-orbit-core aria-hidden="true">
+          M
+        </span>
+        {STACK.map((t) => (
+          <span className="mc-about__orbit-item" data-orbit-item key={t}>
+            {t}
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ClosingCTA() {
+  return (
+    <section className="mc-about__closing">
+      <span className="mc-eyebrow" data-reveal>
+        / SO, WHO IS MARKCODERS?
+      </span>
+      <h2 className="mc-about__closing-heading" data-reveal>
+        WE ARE A TEAM THAT BUILDS DIGITAL EXPERIENCES PEOPLE{' '}
+        <em>REMEMBER.</em>
+      </h2>
+      <p data-reveal>
+        Have an idea, a product, or a business that needs a digital
+        experience? Let's turn it into something people remember.
+      </p>
+      <Link to="/contact" className="mc-about__cta-btn" data-reveal>
+        LET'S BUILD SOMETHING
+        <span aria-hidden="true">↗</span>
+      </Link>
+    </section>
+  );
+}
+
+export default function About() {
+  const rootRef = useRef(null);
+
+  useLayoutEffect(() => {
+    let mm;
+
+    const ctx = gsap.context(() => {
+      mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: '(min-width: 900px)',
+          reduceMotion: '(prefers-reduced-motion: reduce)',
+        },
+        (state) => {
+          const { isDesktop, reduceMotion } = state.conditions;
+          const cleanups = [];
+
+          // Top progress bar — direct feedback tied to the user's own
+          // scroll position, so it stays on even under reduced motion.
+          const progressFill = document.querySelector('[data-progress-fill]');
+          if (progressFill && rootRef.current) {
+            gsap.set(progressFill, { scaleX: 0 });
+            const progressST = ScrollTrigger.create({
+              trigger: rootRef.current,
+              start: 'top top',
+              end: 'bottom bottom',
+              onUpdate: (self) => gsap.set(progressFill, { scaleX: self.progress }),
+            });
+            cleanups.push(() => progressST.kill());
+          }
+
+          if (reduceMotion) {
+            gsap.set('[data-reveal], [data-belief-line], [data-hero-line]', {
+              opacity: 1,
+              x: 0,
+              y: 0,
+            });
+            return () => cleanups.forEach((fn) => fn());
+          }
+
+          // Hero — lines drift apart/together as you scroll through it
+          gsap.utils.toArray('[data-hero-line]').forEach((line, i) => {
+            gsap.to(line, {
+              xPercent: i % 2 === 0 ? -5 : 5,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: '.mc-about__hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 0.6,
+              },
+            });
+          });
+
+          // Fade + rise reveal for anything tagged data-reveal
+          gsap.utils.toArray('[data-reveal]').forEach((el) => {
+            gsap.fromTo(
+              el,
+              { opacity: 0, y: 36 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.9,
+                ease: 'power3.out',
+                scrollTrigger: { trigger: el, start: 'top 85%' },
+              }
+            );
+          });
+
+          // What We Believe — pinned, lines light up one by one
+          const beliefLines = gsap.utils.toArray('[data-belief-line]');
+          if (beliefLines.length) {
+            gsap.set(beliefLines, { opacity: 0.15 });
+            const believeTl = gsap.timeline({
+              scrollTrigger: {
+                trigger: '.mc-about__believe',
+                start: 'top top',
+                end: '+=120%',
+                scrub: 0.6,
+                pin: true,
+              },
+            });
+            beliefLines.forEach((line) => {
+              believeTl.to(line, { opacity: 1, duration: 1 }, '+=0.2');
+            });
+          }
+
+          // 3D M mark — soft sway + scroll-linked tilt on the stage wrapper
+          gsap.to('[data-mark-spin]', {
+            rotateY: 12,
+            duration: 5,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+          });
+          gsap.to('[data-mark-spin]', {
+            rotateZ: 5,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.mc-about__intro',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.8,
+            },
+          });
+
+          // How We Work — pinned horizontal scroll on desktop,
+          // a simple stacked reveal on mobile (no scroll-jacking there)
+          const track = document.querySelector('[data-hww-track]');
+          const steps = gsap.utils.toArray('[data-hww-step]');
+
+          if (isDesktop && track && steps.length) {
+            gsap.to(track, {
+              xPercent: -100 * (steps.length - 1),
+              ease: 'none',
+              scrollTrigger: {
+                trigger: '.mc-about__how',
+                start: 'top top',
+                end: () => '+=' + track.scrollWidth,
+                scrub: 1,
+                pin: true,
+                onUpdate: (self) => {
+                  const active = Math.round(self.progress * (steps.length - 1));
+                  steps.forEach((step, i) =>
+                    step.classList.toggle('is-active', i <= active)
+                  );
+                },
+              },
+            });
+          } else {
+            steps.forEach((step) => {
+              gsap.fromTo(
+                step,
+                { opacity: 0, y: 30 },
+                {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  ease: 'power3.out',
+                  scrollTrigger: { trigger: step, start: 'top 88%' },
+                }
+              );
+            });
+          }
+
+          // Tech orbit — a little pop on the core mark, plus items and
+          // an ambient glow that drift toward the cursor via gsap.quickTo
+          // (quickTo is built for exactly this: cheap, repeated updates)
+          gsap.from('[data-orbit-core]', {
+            scale: 0.4,
+            duration: 0.8,
+            ease: 'back.out(1.6)',
+            scrollTrigger: { trigger: '.mc-about__orbit', start: 'top 80%' },
+          });
+
+          const orbit = document.querySelector('[data-orbit]');
+          if (orbit) {
+            const items = gsap.utils.toArray('[data-orbit-item]');
+            const xTos = items.map((item) =>
+              gsap.quickTo(item, 'x', { duration: 0.6, ease: 'power2.out' })
+            );
+            const yTos = items.map((item) =>
+              gsap.quickTo(item, 'y', { duration: 0.6, ease: 'power2.out' })
+            );
+
+            const onOrbitMove = (e) => {
+              const rect = orbit.getBoundingClientRect();
+              const mx = (e.clientX - rect.left) / rect.width - 0.5;
+              const my = (e.clientY - rect.top) / rect.height - 0.5;
+              items.forEach((_, i) => {
+                xTos[i](mx * (16 + i * 4));
+                yTos[i](my * (16 + i * 4));
+              });
+            };
+            const onOrbitLeave = () => {
+              items.forEach((_, i) => {
+                xTos[i](0);
+                yTos[i](0);
+              });
+            };
+
+            orbit.addEventListener('mousemove', onOrbitMove);
+            orbit.addEventListener('mouseleave', onOrbitLeave);
+            cleanups.push(() => {
+              orbit.removeEventListener('mousemove', onOrbitMove);
+              orbit.removeEventListener('mouseleave', onOrbitLeave);
+            });
+          }
+
+          // Ambient cursor glow across the page (desktop / fine pointer
+          // only — purely decorative, so it's skipped under reduced motion too)
+          const glow = document.querySelector('[data-cursor-glow]');
+          if (glow && isDesktop && rootRef.current) {
+            const glowX = gsap.quickTo(glow, 'x', { duration: 0.7, ease: 'power3' });
+            const glowY = gsap.quickTo(glow, 'y', { duration: 0.7, ease: 'power3' });
+            const onGlowMove = (e) => {
+              glowX(e.clientX);
+              glowY(e.clientY);
+            };
+            rootRef.current.addEventListener('mousemove', onGlowMove);
+            cleanups.push(() =>
+              rootRef.current?.removeEventListener('mousemove', onGlowMove)
+            );
+          }
+
+          return () => cleanups.forEach((fn) => fn());
+        }
+      );
+
+      if (document.fonts) {
+        document.fonts.ready.then(() => ScrollTrigger.refresh());
+      }
+    }, rootRef);
+
+    return () => {
+      mm?.revert();
+      ctx.revert();
+    };
+  }, []);
+
+  return (
+    <div className="mc-about" ref={rootRef}>
+      <div className="mc-about__progress" aria-hidden="true">
+        <span className="mc-about__progress-fill" data-progress-fill />
+      </div>
+      <div className="mc-about__cursor-glow" data-cursor-glow aria-hidden="true" />
+      <Hero />
+      <Intro />
+      <Believe />
+      <Dna />
+      <HowWeWork />
+      <TechOrbit />
+      <ClosingCTA />
+    </div>
+  );
+}

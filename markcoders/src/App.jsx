@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState, Suspense, lazy } from 'react'
+import { useCallback, useEffect, useState, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Loader from './components/MLoader'
 import ScrollToTop from './components/ScrollToTop'
+import SplashCursor from './components/SplashCursor'
 import { setSmoothScroll, scrollToTop } from './lib/smoothScroll'
 import { debounce } from './lib/schedule'
 import {
@@ -88,7 +89,20 @@ const App = () => {
   }, [loading])
 
   return (
-    <>
+    <SplashCursor
+      DENSITY_DISSIPATION={3.5}
+      VELOCITY_DISSIPATION={2}
+      PRESSURE={0.1}
+      CURL={3}
+      SPLAT_RADIUS={0.2}
+      SPLAT_FORCE={6000}
+      COLOR_UPDATE_SPEED={10}
+      SHADING
+      RAINBOW_MODE={false}
+      COLOR="#A855F7"
+      BACK_COLOR={{ r: 1, g: 1, b: 1 }}
+      TRANSPARENT
+    >
       <ScrollToTop />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
@@ -101,7 +115,7 @@ const App = () => {
       </Suspense>
 
       {loading && <Loader onComplete={handleLoaderComplete} />}
-    </>
+    </SplashCursor>
   )
 }
 

@@ -9,8 +9,6 @@ import { LANDING_VIDEO_SRC, useLazyVideoSrc } from '../hooks/useLazyVideoSrc'
 import { isLoaderVisible, onHeroIntro } from '../lib/heroIntro'
 import './StudioHero.css'
 
-const LiquidChromeBackground = lazy(() => import('./LiquidChromeBackground'))
-
 gsap.registerPlugin(ScrollTrigger)
 
 const MODEL_PATH = '/company_logo_3d.glb'
@@ -364,9 +362,6 @@ export default function StudioHero() {
   return (
     <section className="studio-hero" ref={sectionRef} aria-label="Markcoders intro">
       <div className="studio-hero__sticky">
-        <Suspense fallback={<div className="studio-hero__chrome-fallback" aria-hidden="true" />}>
-          <LiquidChromeBackground />
-        </Suspense>
         <div className="studio-hero__grid" aria-hidden="true" />
 
         <h1 className="studio-hero__wordmark">

@@ -26,13 +26,6 @@
   box-sizing: border-box;
 }
 
-.studio-hero__chrome-fallback {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: var(--studio-bg);
-}
-
 .studio-hero__grid {
   position: absolute;
   inset: 0;

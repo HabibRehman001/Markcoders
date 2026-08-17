@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { usePageTransition } from './TransitionProvider'
-import NavLogo3D from './NavLogo3D'
 import BackButton from './BackButton'
+import { rafThrottle } from '../lib/schedule'
 import './Nav.css'
+
+const NavLogo3D = lazy(() => import('./NavLogo3D'))
 
 const rand = (min, max) => Math.random() * (max - min) + min
 
@@ -91,7 +93,7 @@ const Nav = () => {
   const backTone = LIGHT_BACK_PATHS.has(location.pathname) ? 'light' : 'dark'
 
   useEffect(() => {
-    const onScroll = () => {
+    const onScroll = rafThrottle(() => {
       const y = window.scrollY || document.documentElement.scrollTop
       const delta = y - lastY.current
 
@@ -104,10 +106,13 @@ const Nav = () => {
       }
 
       lastY.current = y
-    }
+    })
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      onScroll.cancel()
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   const handleBrandClick = (event) => {
@@ -139,7 +144,20 @@ const Nav = () => {
           }
         }}
       >
-        <NavLogo3D />
+        <Suspense
+          fallback={
+            <img
+              className="nav__logo nav__logo-fallback"
+              src="/logo.png"
+              alt=""
+              width={68}
+              height={68}
+              decoding="async"
+            />
+          }
+        >
+          <NavLogo3D />
+        </Suspense>
       </div>
 
       {location.pathname !== '/' && location.pathname !== '/projects' && (

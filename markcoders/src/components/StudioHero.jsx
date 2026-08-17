@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Float, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
@@ -7,8 +7,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePageTransition } from './TransitionProvider'
 import { LANDING_VIDEO_SRC, useLazyVideoSrc } from '../hooks/useLazyVideoSrc'
 import { isLoaderVisible, onHeroIntro } from '../lib/heroIntro'
-import LiquidChromeBackground from './LiquidChromeBackground'
 import './StudioHero.css'
+
+const LiquidChromeBackground = lazy(() => import('./LiquidChromeBackground'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -363,7 +364,9 @@ export default function StudioHero() {
   return (
     <section className="studio-hero" ref={sectionRef} aria-label="Markcoders intro">
       <div className="studio-hero__sticky">
-        <LiquidChromeBackground />
+        <Suspense fallback={<div className="studio-hero__chrome-fallback" aria-hidden="true" />}>
+          <LiquidChromeBackground />
+        </Suspense>
         <div className="studio-hero__grid" aria-hidden="true" />
 
         <h1 className="studio-hero__wordmark">

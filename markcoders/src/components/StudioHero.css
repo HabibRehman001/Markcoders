@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
 
 .studio-hero {
-  --studio-bg: #ececea;
+  --studio-bg: #6e6e6c;
   --studio-ink: #0a0a0a;
   --studio-muted: #3a3a3a;
   --studio-blue: #009cff;
@@ -24,6 +24,13 @@
   padding: clamp(5.5rem, 10vw, 7.5rem) clamp(1.25rem, 4vw, 3.5rem)
     clamp(1.5rem, 3vw, 2.5rem);
   box-sizing: border-box;
+}
+
+.studio-hero__chrome-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--studio-bg);
 }
 
 .studio-hero__grid {

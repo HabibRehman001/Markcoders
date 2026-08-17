@@ -1,9 +1,12 @@
-import { useLayoutEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { lazy, Suspense, useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import MLogo from '../components/MLogo';
+import { usePageTransition } from '../components/TransitionProvider';
 import './About.css';
+import Footer from '../components/Footer';
+
+const MLogo = lazy(() => import('../components/MLogo'));
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +14,7 @@ const BELIEFS = [
   { lead: 'GOOD DESIGN', body: 'SHOULD FEEL SIMPLE.' },
   { lead: 'GOOD TECHNOLOGY', body: 'SHOULD FEEL NATURAL.' },
   { lead: 'GREAT EXPERIENCES', body: 'SHOULD BE REMEMBERED.' },
+  // { lead: 'GOOD COMMUNICATION', body: 'SHOULD BE EASY TO UNDERSTAND.' },
 ];
 
 const DNA = [
@@ -70,7 +74,9 @@ function Intro() {
         </span>
       </div>
       <div className="mc-about__mark" data-reveal data-mark-spin>
-        <MLogo />
+        <Suspense fallback={<div className="mc-about__mlogo" aria-hidden="true" />}>
+          <MLogo />
+        </Suspense>
       </div>
     </section>
   );
@@ -166,6 +172,8 @@ function TechOrbit() {
 }
 
 function ClosingCTA() {
+  const { navigateWithTransition } = usePageTransition()
+
   return (
     <section className="mc-about__closing">
       <span className="mc-eyebrow" data-reveal>
@@ -179,10 +187,15 @@ function ClosingCTA() {
         Have an idea, a product, or a business that needs a digital
         experience? Let's turn it into something people remember.
       </p>
-      <Link to="/contact" className="mc-about__cta-btn" data-reveal>
+      <button
+        type="button"
+        className="mc-about__cta-btn"
+        data-reveal
+        onClick={() => navigateWithTransition('CONTACT', '/contact', { index: '04' })}
+      >
         LET'S BUILD SOMETHING
         <span aria-hidden="true">↗</span>
-      </Link>
+      </button>
     </section>
   );
 }
@@ -421,6 +434,7 @@ export default function About() {
       <HowWeWork />
       <TechOrbit />
       <ClosingCTA />
+      <Footer />  
     </div>
   );
 }

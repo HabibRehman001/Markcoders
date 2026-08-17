@@ -271,7 +271,7 @@ export default function ProjectsGrid() {
               <a
                 href={project.href}
                 className={`cell${i === 0 ? " cell--left" : " cell--right"}`}
-                key={i}
+                key={`${project.id}-${img.src}`}
               >
                 <div className="cell__frame">
                   <img

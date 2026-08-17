@@ -75,6 +75,11 @@
   cursor: grabbing;
 }
 
+.nav__logo-fallback {
+  object-fit: contain;
+  cursor: default;
+}
+
 .nav__logo-canvas,
 .nav__logo canvas {
   display: block !important;

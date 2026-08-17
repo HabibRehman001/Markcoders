@@ -2,11 +2,8 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { scrollToTop } from '../lib/smoothScroll'
+import { debounce } from '../lib/schedule'
 
-/**
- * Always land at the top when the route changes
- * (fixes Lenis keeping the previous page's scroll offset).
- */
 export default function ScrollToTop() {
   const { pathname } = useLocation()
 
@@ -17,18 +14,20 @@ export default function ScrollToTop() {
 
     scrollToTop({ immediate: true })
 
+    const refresh = debounce(() => {
+      scrollToTop({ immediate: true })
+      ScrollTrigger.refresh()
+    }, 80)
+
     const timers = [
-      window.setTimeout(() => {
-        scrollToTop({ immediate: true })
-        ScrollTrigger.refresh()
-      }, 50),
-      window.setTimeout(() => {
-        scrollToTop({ immediate: true })
-        ScrollTrigger.refresh()
-      }, 300),
+      window.setTimeout(refresh, 50),
+      window.setTimeout(refresh, 320),
     ]
 
-    return () => timers.forEach((id) => window.clearTimeout(id))
+    return () => {
+      refresh.cancel()
+      timers.forEach((id) => window.clearTimeout(id))
+    }
   }, [pathname])
 
   return null

@@ -1,4 +1,5 @@
 import { usePageTransition } from './TransitionProvider'
+import { PREFETCH_BY_PATH } from '../lib/routes'
 import './MenuGrid.css'
 
 const ITEMS = [
@@ -58,6 +59,8 @@ const MenuGrid = () => {
           className={`menu-card menu-card--${item.id}`}
           style={{ gridArea: item.area }}
           disabled={isTransitioning}
+          onPointerEnter={() => PREFETCH_BY_PATH[item.to]?.()}
+          onFocus={() => PREFETCH_BY_PATH[item.to]?.()}
           onClick={(event) => handleCardClick(event, item)}
         >
           <div className="menu-card__content">

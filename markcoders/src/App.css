@@ -13,3 +13,8 @@ body::-webkit-scrollbar,
   height: 0;
   display: none;
 }
+
+.route-fallback {
+  min-height: 100svh;
+  background: var(--black, #050505);
+}
